@@ -66,7 +66,7 @@ class App extends Component {
           {this.state.route === 'home' ? <Subject onRouteChange={this.onRouteChange} setTestInfo={this.setTestInfo} />
             : this.state.route === 'signin' ? <SignIn onRouteChange={this.onRouteChange} />
               : this.state.route === 'register' ? <Register onRouteChange={this.onRouteChange} />
-                : this.state.route === 'quizTest' ? <QuizTest goToResult={this.goToResult} testInfo={this.state.testInfo} />
+                : this.state.route === 'quizTest' ? <QuizTest goToResult={this.goToResult} testInfo={this.state.testInfo}  onRouteChange={this.onRouteChange} />
                   : <Report score={this.state.score} testInfo={this.state.testInfo} />}
         </section>
         <footer>

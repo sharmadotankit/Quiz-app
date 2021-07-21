@@ -8,7 +8,7 @@ class QuizTest extends Component {
         super(props);
         this.state = {
             currentQuestion: 0,
-            questionJson: [],
+            questionJson:''
         }
     }
 
@@ -20,6 +20,7 @@ class QuizTest extends Component {
 
 
     selectAnswer = (value) => {
+        // const {currentQuestion} = this.state
         this.selectedAnswers.push(value)
         if (this.state.currentQuestion < this.state.questionJson.length - 1) {
             this.setState({ currentQuestion: this.state.currentQuestion + 1 })
@@ -32,6 +33,7 @@ class QuizTest extends Component {
 
 
     submitTest = (selectedAnswers) => {
+        
         let correctAnswers = [];
         correctAnswers = this.state.questionJson.map(questionObject => {
             if (questionObject.correct_answer === null) {
@@ -44,7 +46,6 @@ class QuizTest extends Component {
 
         let scoreTemp = 0;
         for (let i = 0; i < correctAnswers.length; i++) {
-
             if (correctAnswers[i] === selectedAnswers[i]) {
                 scoreTemp++;
             }
@@ -62,6 +63,9 @@ class QuizTest extends Component {
     render() {
         if (this.state.questionJson.length === 0) {
             return <div className="quizContainer"><h1>Loading...</h1></div>
+        }
+        else if( this.state.questionJson.error ==="No questions found"){
+           return <div>OUCH !! No test available for your selection. Your can try our other tests.  <a href="#" onClick={() =>this.props.onRouteChange('home')}> Click here to go to other tests</a></div>;
         }
         else {
             console.log(this.state.questionJson)
