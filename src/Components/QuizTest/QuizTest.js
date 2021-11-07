@@ -65,7 +65,7 @@ class QuizTest extends Component {
             return <div className="quizContainer"><h1>Loading...</h1></div>
         }
         else if( this.state.questionJson.error ==="No questions found"){
-           return <div>OUCH !! No test available for your selection. Your can try our other tests.  <a href="#" onClick={() =>this.props.onRouteChange('home')}> Click here to go to other tests</a></div>;
+           return <div>OUCH !! No test available for your selection. Your can try our other tests.  <p style={{color:"blue",size:"20px"}}onClick={() =>this.props.onRouteChange('home')}> Click here to go to other tests</p></div>;
         }
         else {
             console.log(this.state.questionJson)

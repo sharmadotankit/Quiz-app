@@ -1,0 +1,29 @@
+.myReportsDiv{
+    background: linear-gradient(to right, rgb(131, 150, 255),rgb(130, 199, 255));
+    color: blanchedalmond;
+    width: 80%;
+    margin: 10px auto;
+    font-family: 'Times New Roman', Times, serif;
+    border-radius: 3px;
+    border: 1px solid #000000;
+    display: inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding: 5px;
+}
+
+table{
+    width:100%;
+    padding:10px;
+}
+
+th{
+    color: rgb(244, 254, 255);
+    font-size: 25px;
+}
+
+td{
+    color: rgb(39, 6, 185);
+    font-size: 20px;
+    font-weight: bolder;
+}
