@@ -16,7 +16,7 @@ function MyReports({ reports }) {
                 </tr>
                 {
                     reports.map((report, i) => {
-                        return <tr>
+                        return <tr key={i}>
                             <td>{rowNum++}</td>
                             <td>{report.subject}</td>
                             <td>{report.level}</td>

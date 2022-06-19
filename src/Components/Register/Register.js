@@ -49,7 +49,7 @@ class Register extends Component {
                     this.props.onRouteChange('home')
                 }
             })
-        }   
+        }
     }
 
     render() {
