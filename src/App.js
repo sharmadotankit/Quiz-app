@@ -8,6 +8,7 @@ import Report from './Components/Report/Report';
 import { Component } from 'react';
 import Subject from './Components/Subject/Subject';
 import MyReports from './Components/MyReports/MyReports';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class App extends Component {
   constructor() {
@@ -41,7 +42,7 @@ class App extends Component {
   }
 
   loadReports = () => {
-    fetch("http://localhost:4001/report/" + this.state.user.email)
+    fetch(`${BACKEND_URL}/report/` + this.state.user.email)
       .then(response => response.json())
       .then(data => {
         this.setState({ reports: data })
@@ -50,9 +51,7 @@ class App extends Component {
       .catch(err => alert("Error fetching reports"))
   }
 
-  // printState = () =>{
-  //   console.log(this.state);
-  // }
+
 
   onRouteChange = (route) => {
     if (route === 'home' || route === 'report') {
@@ -66,7 +65,7 @@ class App extends Component {
   }
 
   goToResult = (score) => {
-    fetch("http://localhost:4001/storereport", {
+    fetch(`${BACKEND_URL}/storereport`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

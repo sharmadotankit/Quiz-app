@@ -1,4 +1,5 @@
 import { Component } from "react";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class Register extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class Register extends Component {
             document.getElementById("error").innerText = "Enter valid information";
         }
         else{
-            fetch("http://localhost:4001/register", {
+            fetch(`${BACKEND_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': "application/json",

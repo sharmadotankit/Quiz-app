@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import './SignIn.css';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class SignIn extends Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class SignIn extends Component {
             document.getElementById("error").innerText = "Please enter valid credentials!";
         }
         else {
-            fetch("http://localhost:4001/signin", {
+            fetch(`${BACKEND_URL}/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': "application/json",
