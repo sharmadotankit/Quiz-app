@@ -14,13 +14,11 @@ class QuizTest extends Component {
 
     componentDidMount() {
         console.log(this.props.testInfo)
-
-        fetch("https://quizapi.io/api/v1/questions?apiKey=z4sM5CBDojrvv4Ul3jTXKavHQmrJDeD6u3KrgZYX&category=" + this.props.testInfo.subject + "&difficulty=" + this.props.testInfo.level + "&limit=10").then(response => response.json()).then(data => this.setState({ questionJson: data }))
+        fetch(`https://quizapi.io/api/v1/questions?apiKey=${process.env.REACT_APP_QUIZ_API_KEY}&category=` + this.props.testInfo.subject + "&difficulty=" + this.props.testInfo.level + "&limit=10").then(response => response.json()).then(data => this.setState({ questionJson: data }))
     }
 
 
     selectAnswer = (value) => {
-        // const {currentQuestion} = this.state
         this.selectedAnswers.push(value)
         if (this.state.currentQuestion < this.state.questionJson.length - 1) {
             this.setState({ currentQuestion: this.state.currentQuestion + 1 })
@@ -68,7 +66,6 @@ class QuizTest extends Component {
            return <div>OUCH !! No test available for your selection. Your can try our other tests.  <p style={{color:"blue",size:"20px"}}onClick={() =>this.props.onRouteChange('home')}> Click here to go to other tests</p></div>;
         }
         else {
-            console.log(this.state.questionJson)
             const { currentQuestion } = this.state;
             const values = Object.values(this.state.questionJson[currentQuestion].answers)
             return (

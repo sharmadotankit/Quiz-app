@@ -8,6 +8,8 @@ import Report from './Components/Report/Report';
 import { Component } from 'react';
 import Subject from './Components/Subject/Subject';
 import MyReports from './Components/MyReports/MyReports';
+import { connectToServer } from './utils/allActions';
+import ConnectToServer from './Components/ConnectToServer/ConnectToServer';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 class App extends Component {
@@ -26,7 +28,21 @@ class App extends Component {
         name: '',
         email: '',
       },
-      reports: []
+      reports: [],
+      isConnectedToServer :false,
+    }
+  }
+
+
+  componentDidMount = async() =>{
+    try{
+      const response =  await connectToServer();
+      if(response.status){
+        this.setState({ isConnectedToServer: true })
+      }
+    }
+    catch(err){
+      console.log("Something went wrong")
     }
   }
 
@@ -107,6 +123,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {this.state.isConnectedToServer?
+        <>
         <header>
           <NavigationBar onRouteChange={this.onRouteChange} isSignedIn={this.state.isSignedIn} loadReports={this.loadReports} />
         </header>
@@ -121,8 +139,12 @@ class App extends Component {
         <footer>
           <Footer />
         </footer>
-
-
+        </>
+        :
+        <>
+          <ConnectToServer/>
+        </>
+        }
       </div>
     );
   }

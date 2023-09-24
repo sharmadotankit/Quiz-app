@@ -1,80 +1,156 @@
-import { Component } from "react";
-import {register} from '../../utils/authActions';
+import { useState } from "react";
+import { register } from "../../utils/authActions";
+import { Box, Button, TextField } from "@mui/material";
 
-class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            registerEmail: '',
-            registerPassword: '',
-            registerName: '',
+const Register = ({ onRouteChange, loadUser }) => {
+  const [userData, setUserData] = useState({
+    registerEmail: "",
+    registerPassword: "",
+    registerName: "",
+  });
+
+  const [error, setError] = useState({
+    emailError: "",
+    passwordError: "",
+    nameError: "",
+  });
+
+  const onEmailChange = (event) => {
+    setUserData({ ...userData, registerEmail: event.target.value });
+  };
+
+  const onPasswordChange = (event) => {
+    setUserData({ ...userData, registerPassword: event.target.value });
+  };
+
+  console.log("error", error);
+
+  const onNameChange = (event) => {
+    setUserData({ ...userData, registerName: event.target.value });
+  };
+
+  const onRegisterButtonClick = async () => {
+    try {
+      setError({
+        emailError: "",
+        passwordError: "",
+        nameError: "",
+      });
+
+      if (
+        userData.registerEmail === "" ||
+        !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+          userData.registerEmail
+        )
+      ) {
+        setError({
+          ...error,
+          emailError: "Enter valid email",
+          nameError: "",
+          passwordError: "",
+        });
+      } else if (userData.registerName === "") {
+        setError({
+          ...error,
+          nameError: "Enter valid name",
+          emailError: "",
+          passwordError: "",
+        });
+      } else if (
+        userData.registerPassword === "" ||
+        !/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(
+          userData.registerPassword
+        )
+      ) {
+        setError({
+          ...error,
+          passwordError: "Enter valid password",
+          emailError: "",
+          nameErrorL: "",
+        });
+      } else {
+        let data = {
+          email: userData.registerEmail,
+          password: userData.registerPassword,
+          name: userData.registerName,
+        };
+        const response = await register(data);
+        if (response.status) {
+          loadUser(response.data);
+          onRouteChange("home");
         }
+      }
+    } catch (err) {
+      console.log("Error:", err);
     }
+  };
 
-    onEmailChange = (event) => {
-        this.setState({ registerEmail: event.target.value })
-    }
+  return (
+    <div className="containerDiv">
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div className="inputDiv">
+          <h1>Register</h1>
+          <TextField
+            error={error.emailError}
+            onChange={onEmailChange}
+            type="text"
+            id="registerEmail"
+            label="Email"
+            fullWidth
+            helperText={error.emailError ? "Invalid Email" : ""}
+          />
+        </div>
+        <div className="inputDiv">
+          <TextField
+            error={error.nameError}
+            onChange={onNameChange}
+            type="text"
+            id="registerName"
+            label="Name"
+            fullWidth
+            helperText={error.nameError ? "Invalid Name" : ""}
+          />
+        </div>
 
-    onPasswordChange = (event) => {
-        this.setState({ registerPassword: event.target.value })
-    }
+        <div className="inputDiv">
+          <TextField
+            error={error.passwordError}
+            onChange={onPasswordChange}
+            type="password"
+            id="registerPassword"
+            label="Password"
+            fullWidth
+            helperText={error.passwordError ? "Invalid Password" : ""}
+          />
+        </div>
 
-    onNameChange = (event) => {
-        this.setState({ registerName: event.target.value })
-    }
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={onRegisterButtonClick}
+        >
+          Register
+        </Button>
+      </Box>
 
-    onRegisterButtonClick =async () => {
-        document.getElementById("error").innerText = "";
-
-        if(this.state.registerEmail==="" || this.state.registerName==="" || this.state.registerPassword===""){
-            document.getElementById("error").innerText = "Enter valid information";
-        }
-        else{
-
-            let data = {
-                    email: this.state.registerEmail,
-                    password: this.state.registerPassword,
-                    name: this.state.registerName
-                }
-            
-            const response = await register(data);
-            console.log('reg response',response)
-            if(response.status){
-                this.props.loadUser(response.data)
-                this.props.onRouteChange('home')
-            }else{
-                document.getElementById("error").innerHTML = response.message;
-            }
-        }
-        // ).then(response => response.json())
-        //     .then(user => {
-        //         if (user === "Unable to register. Please try again") {
-        //             
-        //         }
-        //         else {
-        //             this.props.loadUser(user)
-        //             this.props.onRouteChange('home')
-        //         }
-        //     })
-        // }
-    }
-
-    render() {
-        return (
-            <div className="containerDiv">
-                <h1>Register</h1>
-                <label htmlFor="registerName">Name </label><br />
-                <input onChange={this.onNameChange} type="text" id="registerName" /><br />
-                <label htmlFor="registerEmail">Email </label><br />
-                <input onChange={this.onEmailChange} type="text" id="registerEmail" /><br />
-                <label htmlFor="registerPassword">Password </label><br />
-                <input onChange={this.onPasswordChange} type="password" id="registerPassword" /><br />
-                <button onClick={this.onRegisterButtonClick}>Register</button>
-                <div id="error" style={{ color: 'tomato', marginTop: "15px" }}></div>
-            </div>
-        );
-    }
-}
-
+      {error.passwordError.length > 0 ? (
+        <div style={{ color: "red", textAlign: "left" }}>
+          <p>Password must be : </p>
+          <li>at least 8 character long</li>
+          <li>at least 1 symbol</li>
+          <li>at least 1 lower case</li>
+          <li>at least 1 upper case</li>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 export default Register;

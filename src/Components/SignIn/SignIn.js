@@ -1,61 +1,96 @@
-import { Component } from 'react';
-import './SignIn.css';
-import {signIn} from '../../utils/authActions';
+import {  useState } from "react";
+import "./SignIn.css";
+import { signIn } from "../../utils/authActions";
+import { TextField, Box, Button } from "@mui/material";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const SignIn = ({onRouteChange,loadUser}) => {
+  const [userData, setUserData] = useState({
+    signInEmail: "",
+    signInPassword: "",
+  });
 
+  const [error, setError] = useState({
+    emailError: "",
+    passwordError: "",
+    credentialsError: "",
+  });
 
-class SignIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            signInEmail: '',
-            signInPassword: ''
-        }
+  const onEmailChange = (event) => {
+    setUserData({ ...userData, signInEmail: event.target.value });
+  };
+
+  const onPasswordChange = (event) => {
+    setUserData({ ...userData, signInPassword: event.target.value });
+  };
+
+  const onSignInButtonClick = async () => {
+    setError({ emailError: "", passwordError: "", credentialsError: "" });
+    if (userData.signInEmail === "") {
+      setError({ ...error, emailError: "Enter valid email" });
+    }else if (userData.signInPassword === "") {
+      setError({ ...error, passwordError: "Enter valid password" });
+    } else {
+      let data = {
+        email: userData.signInEmail,
+        password: userData.signInPassword,
+      };
+      const response = await signIn(data);
+      if (response.status) {
+        loadUser(response.data);
+        onRouteChange("home");
+      } else {
+        document.getElementById("error").innerHTML = response.message;
+      }
     }
+  };
 
-    onEmailChange = (event) => {
-        this.setState({ signInEmail: event.target.value })
-    }
+  return (
+    <div className="containerDiv">
+      <Box
+        component="form"
+        sx={{
+          "& > :not(style)": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+          <div className="inputDiv">
+          <h1>Sign In</h1>
+          <TextField
+            error={error.emailError}
+            onChange={onEmailChange}
+            type="text"
+            id="signinEmail"
+            label="Email"
+            fullWidth 
+            helperText={error.emailError?"Invalid Email":""}
+          />
+          </div>
 
-    onPasswordChange = (event) => {
-        this.setState({ signInPassword: event.target.value })
-    }
+          <div className="inputDiv">
+          <TextField
+            error={error.passwordError}
+            onChange={onPasswordChange}
+            type="password"
+            id="signinPassword"
+            label="Password"
+            fullWidth 
+            helperText={error.passwordError?"Invalid Password":""}
+          />
+          </div>
+          
+          
+          <Button variant="outlined" color="secondary" onClick={onSignInButtonClick}>
+            Sign In
+          </Button>
 
+          {error.credentialsError?<>
 
-    onSignInButtonClick = async() => {
-        document.getElementById("error").innerText = "";
-        if (this.state.signInEmail === '' || this.state.signInPassword === '') {
-            document.getElementById("error").innerText = "Please enter valid credentials!";
-        }
-        else {
-            let data ={
-                email: this.state.signInEmail,password: this.state.signInPassword
-            }
-            const response =  await signIn(data);
-            if(response.status){
-                this.props.loadUser(response.data)
-                this.props.onRouteChange('home')
-            }else{
-                document.getElementById("error").innerHTML = response.message;
-            }
-        }
-    }
-
-    render() {
-        return (
-            <div className="containerDiv">
-                <h1>Sign In</h1>
-                <label htmlFor="signinEmail">Email </label><br />
-                <input onChange={this.onEmailChange} type="text" id="signinEmail" /><br />
-                <label htmlFor="signinPassword">Password </label><br />
-                <input onChange={this.onPasswordChange} type="password" id="signinPassword" /><br />
-                <button onClick={this.onSignInButtonClick}>Sign In</button>
-                <div id="error" style={{ color: 'tomato', marginTop: "15px" }}></div>
-            </div>
-        );
-    }
-}
-
+            Sometghing
+          </>:<></>}
+      </Box>
+    </div>
+  );
+};
 
 export default SignIn;

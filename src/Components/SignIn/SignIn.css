@@ -1,63 +1,25 @@
-.containerDiv{
-    background-color: rgb(37, 34, 34);  
+.containerDiv{  
     padding: 0px 20px 40px 20px;
-    width: 45%;
+    width: 100%;
     max-width: 300px;
-    margin:20px;
-    margin-left: 36%;
+    margin: auto;
     border-radius: 5px;
-    border:1px solid black;
-    box-shadow: 5px 5px 5px 5px rgb(105, 105, 105);
-    color: blanchedalmond;
-
+    border:1px solid rgb(148, 148, 148);
+    box-shadow: 5px 5px 5px 5px rgb(175, 175, 175);
+    color: black;
 }
 
+
 .containerDiv:hover{
-    transition: 0.2s;
-    box-shadow: 3px 3px 3px 5px rgb(51, 51, 51);
+    transition: 0.5s;
+    box-shadow: 3px 3px 3px 5px rgb(182, 182, 182);
     transform: scale(1.001);
 }
 
-.containerDiv>input{
-    margin-bottom: 20px;
-    width:95%;
+.containerDiv .inputDiv{
+    width:90%;
     padding: 5px;
-    background-color: rgb(212, 242, 243);
     font-weight: bolder;
     letter-spacing: 2px;
-    font-family: 'Times New Roman', Times, serif;
     font-size: 1em;
 }
-
-label{
-    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bolder;
-  }
-  
-
-  .containerDiv>button{
-    padding:5px 10px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    font-weight: bolder;
-    color: black;
-    background-color: blanchedalmond;
-    border: 1px solid white;
-    width: 40%;
-    height: 35px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 3px;
-    box-shadow: 0px 10px 10px rgba(255, 255, 255, 0.4);
-    transition: all 0.3s ease 0s;
-    cursor: pointer;
-  }
-
-  .containerDiv>button:active{
-    background-color:blanchedalmond;
-    box-shadow: 0px 7px 7px rgba(255, 255, 255, 0.4);
-    color: rgb(0, 0, 0);
-    transform: translateY(3px);
-  }

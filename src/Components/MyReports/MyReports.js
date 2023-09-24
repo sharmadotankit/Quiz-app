@@ -1,42 +1,39 @@
 import "./MyReports.css";
-import dateFormat from 'dateformat';
+import dateFormat from "dateformat";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 
-function MyReports({ reports,userInfo }) {
-    let rowNum = 1;
-    console.log(userInfo)
-    return (
-        <div className="myReportsDiv">
-            <table border="1">
-            <thead>
-                <tr>
-                    <th>Sr No.</th>
-                    <th>Subject</th>
-                    <th>Level</th>
-                    <th>Status</th>
-                    <th>Score</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>               
-                {
-                    reports.map((report, i) => {
-                        return <tr key={i}>
-                            <td>{rowNum++}</td>
-                            <td>{report.subject}</td>
-                            <td>{report.level}</td>
-                            <td>{report.status}</td>
-                            <td>{report.score}</td>
-                            <td>{dateFormat(report.date, "mmmm dS, yyyy")}</td>
-                        </tr>
-                    })
-                }
-                </tbody>
- 
-            </table>
-        </div>
-    );
-
-
+function MyReports({ reports, userInfo }) {
+  let rowNum = 1;
+  return (
+    <div className="myReportsDiv">
+      <Table border="1">
+        <TableHead>
+          <TableRow>
+            <TableCell>Sr No.</TableCell>
+            <TableCell>Subject</TableCell>
+            <TableCell>Level</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Score</TableCell>
+            <TableCell>Date</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {reports.map((report, i) => {
+            return (
+              <TableRow key={i}>
+                <TableCell>{rowNum++}</TableCell>
+                <TableCell>{report.subject}</TableCell>
+                <TableCell>{report.level}</TableCell>
+                <TableCell>{report.status}</TableCell>
+                <TableCell>{report.score}</TableCell>
+                <TableCell>{dateFormat(report.date, "mmmm dS, yyyy")}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
 
 export default MyReports;
