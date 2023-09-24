@@ -1,6 +1,9 @@
 import { Component } from 'react';
 import './SignIn.css';
+import {signIn} from '../../utils/authActions';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 
 class SignIn extends Component {
     constructor(props) {
@@ -20,32 +23,22 @@ class SignIn extends Component {
     }
 
 
-    onSignInButtonClick = () => {
+    onSignInButtonClick = async() => {
         document.getElementById("error").innerText = "";
         if (this.state.signInEmail === '' || this.state.signInPassword === '') {
             document.getElementById("error").innerText = "Please enter valid credentials!";
         }
         else {
-            fetch(`${BACKEND_URL}/signin`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/json",
-                },
-                body: JSON.stringify({
-                    email: this.state.signInEmail,
-                    password: this.state.signInPassword
-                })
-            }).then(response => response.json())
-                .then(user => {
-                    console.log(user)
-                    if (user === 'Wrong Credentials!' || user === "Unable to get user") {
-                        document.getElementById("error").innerHTML = "Wrong Credentials! Please try again";
-                    }
-                    else {
-                        this.props.loadUser(user)
-                        this.props.onRouteChange('home')
-                    }
-                })
+            let data ={
+                email: this.state.signInEmail,password: this.state.signInPassword
+            }
+            const response =  await signIn(data);
+            if(response.status){
+                this.props.loadUser(response.data)
+                this.props.onRouteChange('home')
+            }else{
+                document.getElementById("error").innerHTML = response.message;
+            }
         }
     }
 

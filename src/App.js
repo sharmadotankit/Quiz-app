@@ -36,7 +36,8 @@ class App extends Component {
       user: {
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        token:user.token,
       }
     })
   }
@@ -51,7 +52,10 @@ class App extends Component {
       .catch(err => alert("Error fetching reports"))
   }
 
-
+  componentDidUpdate = ()=>{
+    console.log("statre",this.state)
+  }
+  
 
   onRouteChange = (route) => {
     if (route === 'home' || route === 'report') {
@@ -111,7 +115,7 @@ class App extends Component {
             : this.state.route === 'signin' ? <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
               : this.state.route === 'register' ? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
                 : this.state.route === 'quizTest' ? <QuizTest goToResult={this.goToResult} testInfo={this.state.testInfo} onRouteChange={this.onRouteChange} />
-                  : this.state.route === "myresult" ? <MyReports reports={this.state.reports} />
+                  : this.state.route === "myresult" ? <MyReports reports={this.state.reports} userInfo={this.state}/>
                     : <Report score={this.state.score} testInfo={this.state.testInfo} user={this.state.user} />}
         </section>
         <footer>

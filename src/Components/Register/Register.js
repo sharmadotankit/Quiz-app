@@ -1,5 +1,5 @@
 import { Component } from "react";
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import {register} from '../../utils/authActions';
 
 class Register extends Component {
     constructor(props) {
@@ -23,34 +23,40 @@ class Register extends Component {
         this.setState({ registerName: event.target.value })
     }
 
-    onRegisterButtonClick = () => {
+    onRegisterButtonClick =async () => {
         document.getElementById("error").innerText = "";
 
         if(this.state.registerEmail==="" || this.state.registerName==="" || this.state.registerPassword===""){
             document.getElementById("error").innerText = "Enter valid information";
         }
         else{
-            fetch(`${BACKEND_URL}/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': "application/json",
-            },
-            body: JSON.stringify({
-                email: this.state.registerEmail,
-                password: this.state.registerPassword,
-                name: this.state.registerName
-            })
-        }).then(response => response.json())
-            .then(user => {
-                if (user === "Unable to register. Please try again") {
-                    document.getElementById("error").innerHTML = "We encountered a problem registering you. Please try again!";
+
+            let data = {
+                    email: this.state.registerEmail,
+                    password: this.state.registerPassword,
+                    name: this.state.registerName
                 }
-                else {
-                    this.props.loadUser(user)
-                    this.props.onRouteChange('home')
-                }
-            })
+            
+            const response = await register(data);
+            console.log('reg response',response)
+            if(response.status){
+                this.props.loadUser(response.data)
+                this.props.onRouteChange('home')
+            }else{
+                document.getElementById("error").innerHTML = response.message;
+            }
         }
+        // ).then(response => response.json())
+        //     .then(user => {
+        //         if (user === "Unable to register. Please try again") {
+        //             
+        //         }
+        //         else {
+        //             this.props.loadUser(user)
+        //             this.props.onRouteChange('home')
+        //         }
+        //     })
+        // }
     }
 
     render() {

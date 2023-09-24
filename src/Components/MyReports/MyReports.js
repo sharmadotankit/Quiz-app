@@ -1,11 +1,13 @@
 import "./MyReports.css";
 import dateFormat from 'dateformat';
 
-function MyReports({ reports }) {
+function MyReports({ reports,userInfo }) {
     let rowNum = 1;
+    console.log(userInfo)
     return (
         <div className="myReportsDiv">
             <table border="1">
+            <thead>
                 <tr>
                     <th>Sr No.</th>
                     <th>Subject</th>
@@ -14,6 +16,8 @@ function MyReports({ reports }) {
                     <th>Score</th>
                     <th>Date</th>
                 </tr>
+                </thead>
+                <tbody>               
                 {
                     reports.map((report, i) => {
                         return <tr key={i}>
@@ -26,6 +30,8 @@ function MyReports({ reports }) {
                         </tr>
                     })
                 }
+                </tbody>
+ 
             </table>
         </div>
     );

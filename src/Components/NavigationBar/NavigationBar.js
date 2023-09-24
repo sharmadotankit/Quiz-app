@@ -31,7 +31,10 @@ const NavigationBar = ({ onRouteChange, isSignedIn,loadReports}) => {
             <div className={navbar?"navigationbarDiv active":"navigationbarDiv"}>
                 <img src={logo} alt="logo" width="80px" height="60px" />
                 <h3 onClick={() => onRouteChange('signin')}>Sign in</h3>
-                <h3 onClick={() => onRouteChange('register')}>Register</h3>
+                <h3 onClick={() => {
+                    console.log('clicked here')
+                    onRouteChange('register')
+                    }}>Register</h3>
             </div>
         );
     }
